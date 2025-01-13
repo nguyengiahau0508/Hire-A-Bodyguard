@@ -1,7 +1,10 @@
 
-import { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
+import { DeepPartial, Entity, FindManyOptions, FindOneOptions } from 'typeorm';
 import { BaseInterfaceRepository } from './repositories/base.interface.repository';
 import { NotFoundException } from '@nestjs/common';
+import { PageOptionsDto } from './pagination/dtos';
+import { PageMetaDto } from './pagination/page-meta.dto';
+import { PageDto } from './pagination/page.dto';
 
 export abstract class BaseService<T> {
   constructor(protected readonly repository: BaseInterfaceRepository<T>) { }
@@ -46,16 +49,18 @@ export abstract class BaseService<T> {
     return this.repository.preload(entityLike);
   }
 
-  async update(id: any, updateData: DeepPartial<T>): Promise<T> {
-    // Attempt to preload the entity with updated data
-    const entity = await this.repository.preload({ id, ...updateData });
+  async getAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<T>> {
+    const queryBuilder = this.repository.createQueryBuilder("entity");
 
-    if (!entity) {
-      throw new NotFoundException(`Entity with ID ${id} not found`);
-    }
+    queryBuilder
+      .orderBy("entity.createdAt", pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
 
-    // Save the updated entity
-    return this.repository.save(entity);
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    return new PageDto(entities, pageMetaDto);
   }
 }
 

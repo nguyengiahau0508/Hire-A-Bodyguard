@@ -4,6 +4,7 @@ import {
   FindOneOptions,
   FindOptionsWhere,
   Repository,
+  SelectQueryBuilder,
 } from 'typeorm';
 
 import { BaseInterfaceRepository } from './base.interface.repository';
@@ -56,5 +57,9 @@ export abstract class BaseAbstractRepository<T extends HasId>
   }
   public async preload(entityLike: DeepPartial<T>): Promise<T> {
     return await this.entity.preload(entityLike);
+  }
+
+  createQueryBuilder(alias: string): SelectQueryBuilder<T> {
+    return this.entity.createQueryBuilder(alias);
   }
 }

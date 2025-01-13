@@ -26,8 +26,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, AuthProviders.Jwt) {
   }
 
   async validate(payload: IJwtPayload) {
-    console.log(payload)
-
     const tokenInfo = await this.tokensService.findTokenByKey(payload.tokenKey)
     if (tokenInfo.isRevoked == true || tokenInfo.type == 'REFRESH_TOKEN' || !tokenInfo) {
       throw new UnauthorizedException('Token Invalid');

@@ -12,5 +12,4 @@ export class CreateServiceDto {
   @IsNotEmpty()
   @IsString()
   description: string
-
 }

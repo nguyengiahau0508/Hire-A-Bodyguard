@@ -2,8 +2,8 @@
 import { Global, Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { SecurityServiceHubConfigurationService } from "../configs/config.service";
-import { ServiceName } from "../../enums/service-name/service-name.enum";
 import { SecurityServiceHubConfigurationModule } from "../configs/config.module";
+import { ServiceName } from "../../common/enums/service-name/service-name.enum";
 
 @Global()
 @Module({
