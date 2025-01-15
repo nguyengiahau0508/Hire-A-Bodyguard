@@ -7,7 +7,7 @@ import { DatabaseProviderModule } from './providers/database/database.provider.m
 @Module({
   imports: [
     FeatureModule,
-    DatabaseProviderModule
+    DatabaseProviderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -49,8 +49,14 @@ export abstract class BaseService<T> {
     return this.repository.preload(entityLike);
   }
 
-  async getAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<T>> {
+
+  async getAll(pageOptionsDto: PageOptionsDto, relations: string[] = []): Promise<PageDto<T>> {
     const queryBuilder = this.repository.createQueryBuilder("entity");
+
+    // Thêm các mối quan hệ được chỉ định
+    relations.forEach((relation) => {
+      queryBuilder.leftJoinAndSelect(`entity.${relation}`, relation);
+    });
 
     queryBuilder
       .orderBy("entity.createdAt", pageOptionsDto.order)
@@ -60,7 +66,19 @@ export abstract class BaseService<T> {
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
     return new PageDto(entities, pageMetaDto);
+  }
+
+  async update(id: number, dto: DeepPartial<T>) {
+    const existingEntity = await this.repository.findOneById(id);
+    if (!existingEntity) {
+      throw new NotFoundException(`Entity with ID ${id} not found`);
+    }
+
+    Object.assign(existingEntity, dto);
+
+    return this.repository.save(existingEntity);
   }
 }
 

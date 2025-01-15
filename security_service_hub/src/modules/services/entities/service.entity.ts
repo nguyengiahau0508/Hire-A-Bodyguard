@@ -1,5 +1,6 @@
 import { BaseEntity } from "src/commons/shared/entities/base.entity";
-import { Column, Entity } from "typeorm";
+import { ServiceRequest } from "src/modules/service-requests/entities/service-request.entity";
+import { Column, Entity, OneToMany } from "typeorm";
 
 @Entity()
 export class Service extends BaseEntity {
@@ -11,4 +12,7 @@ export class Service extends BaseEntity {
 
   @Column({ type: 'text' })
   description: string
+
+  @OneToMany(() => ServiceRequest, (serviceRequest) => serviceRequest.service)
+  serviceRequests: ServiceRequest[]
 }

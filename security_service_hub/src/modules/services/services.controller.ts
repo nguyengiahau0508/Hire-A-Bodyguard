@@ -14,9 +14,9 @@ export class ServicesController {
   constructor(private readonly servicesService: ServicesService) { }
 
   @MessagePattern(ServiceMessagePattern.CREATE)
-  async create(@Payload() createServiceDto: CreateServiceDto) {
+  async create(@Payload() dto: CreateServiceDto) {
     return {
-      data: this.servicesService.create(createServiceDto)
+      data: this.servicesService.create(dto)
     };
   }
 
@@ -29,9 +29,7 @@ export class ServicesController {
 
   @MessagePattern(ServiceMessagePattern.FIND_ALL)
   async findAll(@Payload() pageOptionsDto: PageOptionsDto) {
-    return {
-      data: await this.servicesService.getAll(pageOptionsDto)
-    };
+    return await this.servicesService.getAll(pageOptionsDto)
   }
 
   @MessagePattern(ServiceMessagePattern.FIND_ONE_BY_ID)

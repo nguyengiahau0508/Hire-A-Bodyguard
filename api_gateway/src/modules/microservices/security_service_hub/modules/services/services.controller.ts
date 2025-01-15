@@ -9,7 +9,6 @@ import { Role } from "src/common/enums/authentication/role.enum";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { UpdateServiceDto } from "./dto/update-service.dto";
 import { PageOptionsDto } from "src/common/shared/pagination/dtos";
-import { ApiPaginatedResponse } from "src/common/decorators/api-paginated-response.decorator";
 
 @Controller('services')
 export class ServicesController {
