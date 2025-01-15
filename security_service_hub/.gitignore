@@ -52,5 +52,7 @@ pids
 *.seed
 *.pid.lock
 
+
+/src/integrations/google-oauth2/config/google-auth02-config.json
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
