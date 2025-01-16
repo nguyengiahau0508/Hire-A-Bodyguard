@@ -4,6 +4,8 @@ import { ServiceRequestsModule } from "./service-requests/service-requests.modul
 import { FeedbacksModule } from "./feedbacks/feedbacks.module";
 import { OrdersModule } from "./orders/orders.module";
 import { FilesModule } from "./files/files.module";
+import { TransactionsModule } from "./transactions/transactions.module";
+import { MomoPaymentModule } from "src/integrations/momo-payment/momo-payment.module";
 
 @Module({
   imports: [
@@ -11,7 +13,9 @@ import { FilesModule } from "./files/files.module";
     ServiceRequestsModule,
     FeedbacksModule,
     OrdersModule,
-    FilesModule
+    FilesModule,
+    TransactionsModule,
+    MomoPaymentModule
   ]
 })
 export class FeatureModule { }

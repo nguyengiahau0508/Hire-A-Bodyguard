@@ -38,9 +38,9 @@ export class OrdersService {
     );
   }
 
-  async update(id: number, dto: UpdateOrderDto) {
+  async update(id: number, dto: UpdateOrderDto, file: Express.Multer.File) {
     return await ClientRequestWrapper.sendRequest(
-      this.client.send(OrderMessagePattern.UPDATE, { id, dto }),
+      this.client.send(OrderMessagePattern.UPDATE, { id, dto, file }),
       "An unexpected error occurred while updating the service."
     );
   }

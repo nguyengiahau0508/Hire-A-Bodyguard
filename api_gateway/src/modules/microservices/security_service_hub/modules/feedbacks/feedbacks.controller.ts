@@ -37,7 +37,8 @@ export class FeedbacksController {
   @Patch(':id')
   @UseGuards(AuthGuard(AuthProviders.Jwt))
   @Roles(Role.Admin)
-  async update(@Param('id') id: number, @Body() dto: UpdateFeedbackDto) {
+  async update(@Request() req: any, @Param('id') id: number, @Body() dto: UpdateFeedbackDto) {
+    dto.userId = req.user.sub
     return await this.feedbacksService.update(id, dto)
   }
 }

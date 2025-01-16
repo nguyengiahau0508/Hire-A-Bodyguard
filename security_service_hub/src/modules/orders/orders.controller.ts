@@ -31,9 +31,9 @@ export class OrdersController {
 
   @MessagePattern(OrderMessagePattern.UPDATE)
   async update(@Payload() payload: { id: number; dto: UpdateOrderDto, file: Express.Multer.File }) {
-    const { id, dto } = payload;
+    const { id, dto, file } = payload;
     return {
-      data: await this.ordersService.update(id, dto)
+      data: await this.ordersService.customeUpdate(id, dto, file)
     };
   }
 }

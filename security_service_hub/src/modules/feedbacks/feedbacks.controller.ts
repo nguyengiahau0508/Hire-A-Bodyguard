@@ -33,7 +33,7 @@ export class FeedbacksController {
   async update(@Payload() payload: { id: number; dto: UpdateFeedbackDto }) {
     const { id, dto } = payload;
     return {
-      data: await this.feedbacksService.update(id, dto)
+      data: await this.feedbacksService.customUpdate(id, dto)
     };
   }
 }

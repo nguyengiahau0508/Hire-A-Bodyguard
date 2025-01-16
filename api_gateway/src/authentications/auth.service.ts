@@ -81,6 +81,8 @@ export class AuthService {
     const basePayload = {
       sub: user.id,
       email: user.email,
+      user,
+      roles: [user.role]
     };
 
     const accessPayload = { ...basePayload, accessKey, refreshKey, tokenKey: accessKey };

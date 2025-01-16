@@ -1,36 +1,25 @@
 
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateOrderDto {
-  @IsNumber()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'ID của người dùng thực hiện đơn hàng',
-    example: 1,
-  })
+
   userId: number;
 
-  @IsNumber()
-  @IsNotEmpty()
   @ApiProperty({
-    description: 'ID của yêu cầu dịch vụ',
-    example: 123,
+    description: 'ID của yêu cầu dịch vụ liên quan đến đơn hàng',
+    example: 101,
   })
   serviceRequestId: number;
 
-  @IsNumber()
-  @IsNotEmpty()
   @ApiProperty({
     description: 'Tổng số tiền của đơn hàng',
-    example: 500000,
+    example: 5000000,
   })
   totalAmount: number;
 
-  @IsString()
   @ApiProperty({
-    description: 'Ghi chú cho đơn hàng',
-    example: 'Yêu cầu bảo vệ chuyên nghiệp, làm việc từ 8h đến 16h',
+    description: 'Ghi chú thêm cho đơn hàng (nếu có)',
+    example: 'Cần xử lý đơn hàng gấp trước ngày mai',
     required: false,
   })
   note: string;

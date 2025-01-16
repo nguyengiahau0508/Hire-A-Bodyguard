@@ -5,6 +5,7 @@ import { NotFoundException } from '@nestjs/common';
 import { PageOptionsDto } from './pagination/dtos';
 import { PageMetaDto } from './pagination/page-meta.dto';
 import { PageDto } from './pagination/page.dto';
+import { RpcException } from '@nestjs/microservices';
 
 export abstract class BaseService<T> {
   constructor(protected readonly repository: BaseInterfaceRepository<T>) { }
@@ -73,7 +74,7 @@ export abstract class BaseService<T> {
   async update(id: number, dto: DeepPartial<T>) {
     const existingEntity = await this.repository.findOneById(id);
     if (!existingEntity) {
-      throw new NotFoundException(`Entity with ID ${id} not found`);
+      throw new RpcException(`Entity with ID ${id} not found`);
     }
 
     Object.assign(existingEntity, dto);
