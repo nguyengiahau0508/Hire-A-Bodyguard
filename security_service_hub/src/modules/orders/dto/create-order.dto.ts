@@ -9,10 +9,6 @@ export class CreateOrderDto {
   @IsNotEmpty()
   serviceRequestId: number
 
-  @IsNumber()
-  @IsNotEmpty()
-  totalAmount: number
-
   @IsString()
   note: string
 }

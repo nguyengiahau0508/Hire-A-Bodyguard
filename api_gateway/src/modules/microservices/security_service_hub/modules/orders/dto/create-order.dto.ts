@@ -12,12 +12,6 @@ export class CreateOrderDto {
   serviceRequestId: number;
 
   @ApiProperty({
-    description: 'Tổng số tiền của đơn hàng',
-    example: 5000000,
-  })
-  totalAmount: number;
-
-  @ApiProperty({
     description: 'Ghi chú thêm cho đơn hàng (nếu có)',
     example: 'Cần xử lý đơn hàng gấp trước ngày mai',
     required: false,

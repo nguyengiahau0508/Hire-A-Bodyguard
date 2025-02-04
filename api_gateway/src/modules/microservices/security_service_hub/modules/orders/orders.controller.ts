@@ -40,7 +40,6 @@ export class OrdersController {
       type: 'object',
       properties: {
         serviceRequestId: { type: 'number', description: 'ID của yêu cầu dịch vụ' },
-        totalAmount: { type: 'number', description: 'Tổng số tiền của đơn hàng' },
         note: { type: 'string', description: 'Ghi chú' },
         file: { type: 'string', format: 'binary', description: 'File đính kèm' },
       },
@@ -77,7 +76,6 @@ export class OrdersController {
       type: 'object',
       properties: {
         serviceRequestId: { type: 'number', description: 'ID của yêu cầu dịch vụ', nullable: true },
-        totalAmount: { type: 'number', description: 'Tổng số tiền của đơn hàng', nullable: true },
         note: { type: 'string', description: 'Ghi chú', nullable: true },
         file: { type: 'string', format: 'binary', description: 'File đính kèm', nullable: true },
       },

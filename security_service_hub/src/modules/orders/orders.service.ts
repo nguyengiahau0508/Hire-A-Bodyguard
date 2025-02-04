@@ -6,7 +6,6 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { ServiceRequestsService } from '../service-requests/service-requests.service';
 import { RpcException } from '@nestjs/microservices';
 import { FilesServcie } from '../files/files.service';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { DeepPartial } from 'typeorm';
 
 @Injectable()
@@ -21,16 +20,20 @@ export class OrdersService extends BaseService<Order> {
 
   async createAndSaveToDB(payload: { dto: CreateOrderDto, file: Express.Multer.File }) {
     const { dto, file } = payload
-    const serviceRequest = await this.serivceRequestsSerivce.findOneById(dto.serviceRequestId)
-    if (!serviceRequest) throw new RpcException('serviceRequestId not found')
+    const serviceRequest = await this.serivceRequestsSerivce.findByCondition({ where: { id: dto.serviceRequestId }, relations: ['service'] })
+    if (!serviceRequest) throw new RpcException('Service request not found')
 
-    console.log(serviceRequest)
+    const service = serviceRequest.service
+    if (!service) throw new RpcException('service not found')
 
     const serivceRequesOrder = await this.orderRepository.findByCondition({ where: { serviceRequest: { id: serviceRequest.id } } })
     if (serivceRequesOrder) throw new RpcException('order already exists')
 
+    const totalAmount = service.price * serviceRequest.numberOfGuards * serviceRequest.numberOfHours
+
     const created = this.orderRepository.create({
       serviceRequest,
+      totalAmount,
       ...dto,
     })
 
@@ -54,5 +57,4 @@ export class OrdersService extends BaseService<Order> {
 
     return this.repository.save(order);
   }
-
 }

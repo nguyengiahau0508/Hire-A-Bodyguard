@@ -6,6 +6,7 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { OrdersService } from '../orders/orders.service';
 import { RpcException } from '@nestjs/microservices';
 import { MomoPaymentService } from 'src/integrations/momo-payment/momo-payment.service';
+import { generateMomoOrderId } from 'src/integrations/momo-payment/utils/generateMomoOrderId';
 
 @Injectable()
 export class TransactionsService extends BaseService<Transaction> {
@@ -32,6 +33,7 @@ export class TransactionsService extends BaseService<Transaction> {
   async getLinkPayFromMomo({ id, userInfo }: { id: number, userInfo: { name: string; phoneNumber: string; email: string } }) {
     const transaction = await this.findByCondition({ where: { id }, relations: ['order'] })
     if (!transaction) throw new RpcException('transaction not found')
-    return await this.momoPaymentService.createPayment(transaction.amount, [], userInfo, transaction.order.id)
+    const momoOrderId = generateMomoOrderId(String(transaction.id))
+    return await this.momoPaymentService.createPayment(transaction.amount, [], userInfo, momoOrderId)
   }
 }
