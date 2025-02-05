@@ -1,7 +1,6 @@
 
 import { DeepPartial, Entity, FindManyOptions, FindOneOptions } from 'typeorm';
 import { BaseInterfaceRepository } from './repositories/base.interface.repository';
-import { NotFoundException } from '@nestjs/common';
 import { PageOptionsDto } from './pagination/dtos';
 import { PageMetaDto } from './pagination/page-meta.dto';
 import { PageDto } from './pagination/page.dto';
@@ -73,6 +72,7 @@ export abstract class BaseService<T> {
 
   async update(id: number, dto: DeepPartial<T>) {
     const existingEntity = await this.repository.findOneById(id);
+
     if (!existingEntity) {
       throw new RpcException(`Entity with ID ${id} not found`);
     }

@@ -4,28 +4,39 @@ import { BodyguardService } from './bodyguard.service';
 import { CreateBodyguardDto } from './dto/create-bodyguard.dto';
 import { UpdateBodyguardDto } from './dto/update-bodyguard.dto';
 import { BODYGUARD_MESSAGE } from '../message.pattern';
+import { PageOptionsDto } from 'src/commons/shared/pagination/dtos';
 
 @Controller()
 export class BodyguardController {
   constructor(private readonly bodyguardService: BodyguardService) { }
 
   @MessagePattern(BODYGUARD_MESSAGE.CREATE)
-  create(@Payload() createBodyguardDto: CreateBodyguardDto) {
-    return this.bodyguardService.create(createBodyguardDto);
+  async create(@Payload() createBodyguardDto: CreateBodyguardDto) {
+    return { data: this.bodyguardService.create(createBodyguardDto) };
+  }
+
+  @MessagePattern(BODYGUARD_MESSAGE.CREATE_AND_SAVE)
+  async createAndSave(@Payload() createBodyguardDto: CreateBodyguardDto) {
+    return { data: await this.bodyguardService.createAndSave(createBodyguardDto) };
   }
 
   @MessagePattern(BODYGUARD_MESSAGE.FINDALL)
-  findAll() {
-    return this.bodyguardService.findAll();
+  findAll(@Payload() pageOtionDto: PageOptionsDto) {
+    return this.bodyguardService.getAll(pageOtionDto);
   }
 
   @MessagePattern(BODYGUARD_MESSAGE.FINDONE)
-  findOne(@Payload() id: number) {
-    return this.bodyguardService.findOne(id);
+  async findOne(@Payload() id: number) {
+    return {
+      data: await this.bodyguardService.findOneById(id)
+    }
   }
 
   @MessagePattern(BODYGUARD_MESSAGE.UPDATE)
-  update(@Payload() updateBodyguardDto: UpdateBodyguardDto) {
-    return this.bodyguardService.update(updateBodyguardDto.id, updateBodyguardDto);
+  async update(@Payload() payload: { id: number, dto: UpdateBodyguardDto }) {
+    const { id, dto } = payload
+    return {
+      data: await this.bodyguardService.updateCustom(id, dto)
+    }
   }
 }
