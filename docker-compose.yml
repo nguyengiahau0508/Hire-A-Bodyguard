@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "@Giahau123"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
+
+  api-gateway:
+    build:
+      context: ./api_gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mariadb
+    environment:
+      DATABASE_HOST: mariadb
+      DATABASE_USER: root
+      DATABASE_PASSWORD: "@Giahau123"
+      DATABASE_NAME: hire_a_bodyguard_auth_db
+
+  service-1:
+    build:
+      context: ./security_service_hub
+      dockerfile: Dockerfile
+    container_name: security-service-hub
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mariadb
+    environment:
+      DATABASE_HOST: mariadb
+      DATABASE_USER: root
+      DATABASE_PASSWORD: "@Giahau123"
+      DATABASE_NAME: hire_a_bodyguard_hub_db
+
+  service-2:
+    build:
+      context: ./bodyguard_service
+      dockerfile: Dockerfile
+    container_name: bodyguard-service
+    restart: always
+    ports:
+      - "30001:30001"
+    depends_on:
+      - mariadb
+    environment:
+      DATABASE_HOST: mariadb
+      DATABASE_USER: root
+      DATABASE_PASSWORD: "@Giahau123"
+      DATABASE_NAME: hire_a_bodyguard_bodyguard_db
+
+volumes:
+  mariadb_data:
+

@@ -39,5 +39,4 @@ export class TranningCatalogController {
   async update(@Param('id') id: number, @Body() dto: UpdateTranningCatalogDto) {
     return this.tranningCatalogService.update(id, dto)
   }
-
 }
