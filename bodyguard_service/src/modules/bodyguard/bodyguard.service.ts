@@ -5,7 +5,6 @@ import { BodyguardRepository } from './bodyguard.repository';
 import { CreateBodyguardDto } from './dto/create-bodyguard.dto';
 import { JobService } from '../job/job.service';
 import { RpcException } from '@nestjs/microservices';
-import { DeepPartial } from 'typeorm';
 import { UpdateBodyguardDto } from './dto/update-bodyguard.dto';
 
 @Injectable()

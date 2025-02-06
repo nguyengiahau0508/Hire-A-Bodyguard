@@ -1,4 +1,3 @@
-
 import { DeepPartial, Entity, FindManyOptions, FindOneOptions } from 'typeorm';
 import { BaseInterfaceRepository } from './repositories/base.interface.repository';
 import { PageOptionsDto } from './pagination/dtos';
@@ -81,5 +80,6 @@ export abstract class BaseService<T> {
 
     return this.repository.save(existingEntity);
   }
+
 }
 

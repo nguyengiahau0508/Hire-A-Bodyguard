@@ -14,4 +14,4 @@ export interface BaseInterfaceRepository<T> {
   preload(entityLike: DeepPartial<T>): Promise<T>;
   createQueryBuilder(alias: string): SelectQueryBuilder<T>;
   removeMany(entities: T[]): Promise<T[]>;
-}
+};

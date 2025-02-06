@@ -6,6 +6,8 @@ import { BodyguardTranningModule } from "./bodyguard_tranning/bodyguard_tranning
 import { SalaryModule } from "./salary/salary.module";
 import { TimesheetModule } from "./timesheet/timesheet.module";
 import { JobSkillModule } from './job-skill/job-skill.module';
+import { TrainingDayModule } from './training-day/training-day.module';
+import { TranningCatalogModule } from "./tranning_catalog/tranning_catalog.module";
 
 @Module({
   imports: [
@@ -15,8 +17,9 @@ import { JobSkillModule } from './job-skill/job-skill.module';
     BodyguardTranningModule,
     SalaryModule,
     TimesheetModule,
-    BodyguardTranningModule,
-    JobSkillModule
+    JobSkillModule,
+    TrainingDayModule,
+    TranningCatalogModule
   ]
 })
 export class FeatureModule { }
