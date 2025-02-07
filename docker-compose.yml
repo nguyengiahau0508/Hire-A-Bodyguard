@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
     container_name: api-gateway
     restart: always
+    command: npm run start:dev
     ports:
       - "8080:8080"
     depends_on:
@@ -29,6 +30,9 @@ services:
       DATABASE_USER: root
       DATABASE_PASSWORD: "@Giahau123"
       DATABASE_NAME: hire_a_bodyguard_auth_db
+    volumes:
+      - ./api_gateway:/app
+      - /app/node_modules
 
   service-1:
     build:
@@ -36,6 +40,7 @@ services:
       dockerfile: Dockerfile
     container_name: security-service-hub
     restart: always
+    command: npm run start:dev
     ports:
       - "3000:3000"
     depends_on:
@@ -45,6 +50,9 @@ services:
       DATABASE_USER: root
       DATABASE_PASSWORD: "@Giahau123"
       DATABASE_NAME: hire_a_bodyguard_hub_db
+    volumes:
+      - ./security_service_hub:/app
+      - /app/node_modules
 
   service-2:
     build:
@@ -52,6 +60,7 @@ services:
       dockerfile: Dockerfile
     container_name: bodyguard-service
     restart: always
+    command: npm run start:dev
     ports:
       - "30001:30001"
     depends_on:
@@ -61,6 +70,9 @@ services:
       DATABASE_USER: root
       DATABASE_PASSWORD: "@Giahau123"
       DATABASE_NAME: hire_a_bodyguard_bodyguard_db
+    volumes:
+      - ./bodyguard_service:/app
+      - /app/node_modules
 
 volumes:
   mariadb_data:
